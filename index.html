@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HandyBot · Your Extra Smart Hand</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', 'Montserrat', sans-serif;
+      background: #f5f9ff;
+      color: #1a2b3c;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ----- FLOATING ANIMATED BACKGROUND GRAPHICS ----- */
+    .bg-orbs {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      animation: floatOrb 18s infinite alternate ease-in-out;
+    }
+
+    .orb1 { width: 400px; height: 400px; background: #328CC1; top: 5%; left: -5%; animation-duration: 22s; }
+    .orb2 { width: 500px; height: 500px; background: #C3073F; bottom: -10%; right: -5%; animation-duration: 26s; opacity: 0.15; }
+    .orb3 { width: 300px; height: 300px; background: #0B3C5D; top: 40%; left: 40%; animation-duration: 30s; opacity: 0.1; }
+    .orb4 { width: 250px; height: 250px; background: #f39c12; top: 70%; left: 15%; animation-duration: 20s; opacity: 0.12; }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(40px, -30px) scale(1.1); }
+      100% { transform: translate(-30px, 40px) scale(0.9); }
+    }
+
+    .particles {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      width: 6px; height: 6px;
+      background: #328CC1;
+      border-radius: 50%;
+      opacity: 0.2;
+      animation: riseParticle 12s infinite linear;
+    }
+
+    @keyframes riseParticle {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      20% { opacity: 0.5; }
+      80% { opacity: 0.3; }
+      100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+    }
+
+    /* ----- HERO with floating name ----- */
+    .hero {
+      background: linear-gradient(145deg, #0a2f4a 0%, #134b6b 100%);
+      color: white;
+      padding: 3rem 1.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 6px solid #C3073F;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; width: 100%; height: 8px;
+      background: linear-gradient(90deg, #C3073F, #f39c12, #328CC1, #C3073F);
+      background-size: 300% 100%;
+      animation: slideGradient 4s infinite linear;
+    }
+
+    @keyframes slideGradient {
+      0% { background-position: 0% 0; }
+      100% { background-position: 300% 0; }
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .floating-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .floating-name {
+      font-size: 5rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      text-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      animation: floatName 4s infinite ease-in-out;
+      background: linear-gradient(135deg, #ffffff 0%, #b3e0ff 70%, #7ec8ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: inline-block;
+    }
+
+    @keyframes floatName {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(-1deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .floating-tagline {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #d6e9ff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: floatTag 5s infinite ease-in-out;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes floatTag {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .floating-tagline i {
+      color: #f39c12;
+      font-size: 2rem;
+      animation: spinHand 6s infinite linear;
+    }
+
+    @keyframes spinHand {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(10deg); }
+      75% { transform: rotate(-10deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      animation: floatStats 5.5s infinite ease-in-out;
+    }
+
+    @keyframes floatStats {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .stat-chip {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(8px);
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+      cursor: default;
+    }
+
+    .stat-chip:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    .stat-chip i {
+      color: #f39c12;
+      font-size: 1.4rem;
+    }
+
+    /* ----- MAIN LAYOUT ----- */
+    .container {
+      max-width: 1300px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 2rem;
+      align-items: start;
+      position: relative;
+      z-index: 5;
+    }
+
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; }
+      .floating-name { font-size: 3.5rem; }
+      .floating-tagline { font-size: 1.2rem; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 1.8rem 2rem;
+      box-shadow: 0 12px 32px rgba(11, 60, 93, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 2rem;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(11, 60, 93, 0.16);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid rgba(50, 140, 193, 0.2);
+      padding-bottom: 1rem;
+    }
+
+    .card-header h2 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #0B3C5D;
+      letter-spacing: -0.5px;
+    }
+
+    .card-header .icon {
+      background: linear-gradient(135deg, #0B3C5D, #328CC1);
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 8px 16px rgba(50, 140, 193, 0.3);
+    }
+
+    /* ----- BUILT-IN ANIMATED VIDEO PLAYER ----- */
+    .video-player-wrapper {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(11, 60, 93, 0.25);
+      margin-bottom: 2rem;
+      border: 3px solid white;
+      background: linear-gradient(145deg, #0a1a28, #0d2a3f);
+      aspect-ratio: 16 / 9;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+
+    .video-player-wrapper:hover {
+      transform: scale(1.01);
+      box-shadow: 0 30px 60px rgba(195, 7, 63, 0.3);
+    }
+
+    .video-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .video-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.2rem;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .video-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .video-label {
+      background: rgba(10, 47, 74, 0.85);
+      backdrop-filter: blur(6px);
+      color: white;
+      padding: 0.6rem 1.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .video-label i {
+      color: #f39c12;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      background: #ff4d4d;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: blink 1.2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .video-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      pointer-events: auto;
+      width: 100%;
+    }
+
+    .play-btn {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      color: white;
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .play-btn:hover {
+      background: #C3073F;
+      border-color: #C3073F;
+      transform: scale(1.1);
+    }
+
+    .video-progress-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #328CC1, #f39c12);
+      border-radius: 10px;
+      transition: width 0.1s linear;
+    }
+
+    .video-time {
+      color: white;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 600;
+      min-width: 80px;
+      text-align: right;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Scene captions that appear over the video */
+    .scene-caption {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 47, 74, 0.85);
+      backdrop-filter: blur(8px);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      text-align: center;
+      z-index: 10;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      max-width: 85%;
+      white-space: nowrap;
+    }
+
+    .scene-caption.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-5px);
+    }
+
+    /* ----- 5-DOF HIGHLIGHT ----- */
+    .dof-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #C3073F, #f39c12);
+      color: white;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 0.4rem 1.4rem;
+      border-radius: 60px;
+      letter-spacing: 1px;
+      box-shadow: 0 8px 16px rgba(195, 7, 63, 0.3);
+      animation: pulseBadge 2.5s infinite;
+    }
+
+    @keyframes pulseBadge {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    /* ----- GENERAL STYLES ----- */
+    .tag { display: inline-block; background: #e7edf4; padding: 0.25rem 1rem; border-radius: 40px; font-size: 0.8rem; font-weight: 600; color: #0B3C5D; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    .tag.amber { background: #fff2e5; color: #b34a2a; }
+    .tag.green { background: #e1f5e8; color: #1d6b3c; }
+    .badge { background: #C3073F; color: white; border-radius: 30px; padding: 0.2rem 0.9rem; font-size: 0.75rem; font-weight: 700; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .comp-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .comp-table th { text-align: left; padding: 0.8rem 0.4rem 0.8rem 0; font-weight: 600; color: #0B3C5D; border-bottom: 2px solid #d0ddee; }
+    .comp-table td { padding: 0.75rem 0.4rem 0.75rem 0; border-bottom: 1px solid #eef3f9; }
+    .comp-table tr:last-child td { border-bottom: none; }
+
+    .arch-diagram {
+      background: #0d1f2c; color: #d6e9ff; padding: 1.5rem; border-radius: 20px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.7;
+      white-space: pre; overflow-x: auto; border-left: 8px solid #328CC1; margin: 1rem 0;
+    }
+
+    .dashboard-mock { background: #ffffff; border-radius: 18px; padding: 1.5rem; border: 1px solid #d0ddee; }
+    .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .led { width: 18px; height: 18px; border-radius: 50%; background: #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.1); transition: background 0.2s, box-shadow 0.2s; }
+    .led.active { background: #2ecc71; box-shadow: 0 0 18px #2ecc71aa; }
+    .dash-value { font-weight: 700; font-size: 1.4rem; color: #0B3C5D; }
+    .dash-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: #6f8fa2; font-weight: 600; }
+    .distance-meter { background: #e7edf4; height: 12px; border-radius: 20px; margin: 1rem 0; overflow: hidden; }
+    .distance-fill { height: 12px; width: 0%; background: linear-gradient(90deg, #328CC1, #0B3C5D); border-radius: 20px; transition: width 0.2s ease; }
+
+    .btn { background: white; border: 2px solid #0B3C5D; color: #0B3C5D; padding: 0.7rem 1.5rem; border-radius: 40px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn:hover { background: #0B3C5D; color: white; }
+    .btn.primary { background: #C3073F; border-color: #C3073F; color: white; }
+    .btn.primary:hover { background: #a00533; border-color: #a00533; }
+    .btn.small { padding: 0.5rem 1.2rem; font-size: 0.8rem; }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.2rem; }
+
+    .log-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+    .log-table th { text-align: left; color: #6f8fa2; font-weight: 600; padding: 0.6rem 0.2rem; border-bottom: 1px solid #d0ddee; text-transform: uppercase; letter-spacing: 0.5px; }
+    .log-table td { padding: 0.7rem 0.2rem; border-bottom: 1px solid #eef3f9; font-family: 'JetBrains Mono', monospace; }
+    .log-table .lock { color: #2ecc71; font-weight: 700; }
+    .log-table .unlock { color: #C3073F; }
+
+    .canvas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .canvas-block { background: #f9fcff; border-radius: 16px; padding: 1rem 1.2rem; border: 1px solid #d0ddee; }
+    .canvas-block h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.8px; color: #6f8fa2; margin-bottom: 0.6rem; font-weight: 700; }
+    .canvas-block p { font-size: 0.85rem; color: #1D2731; }
+
+    .footer { text-align: center; padding: 2rem 1.5rem; font-size: 0.85rem; color: #6f8fa2; border-top: 1px solid #d0ddee; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <div class="orb orb4"></div>
+  </div>
+
+  <div class="particles" id="particles"></div>
+
+  <header class="hero">
+    <div class="hero-content">
+      <div class="floating-title">
+        <div class="floating-name">HandyBot</div>
+        <div class="floating-tagline">
+          <i class="fas fa-hand-holding-heart"></i>
+          Your Extra Smart Hand
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-chip"><i class="fas fa-robot"></i> 5‑DOF Arm</div>
+        <div class="stat-chip"><i class="fas fa-wifi"></i> IoT Dashboard</div>
+        <div class="stat-chip"><i class="fas fa-bolt"></i> Auto‑Grip &lt; 10cm</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <main>
+      <!-- ===== BUILT-IN ANIMATED VIDEO ===== -->
+      <div class="video-player-wrapper" id="videoWrapper">
+        <canvas class="video-canvas" id="videoCanvas"></canvas>
+
+        <div class="video-overlay">
+          <div class="video-top-bar">
+            <div class="video-label">
+              <span class="live-dot"></span>
+              <i class="fas fa-video"></i> HandyBot · Promo
+            </div>
+          </div>
+
+          <div class="video-controls">
+            <button class="play-btn" id="playBtn">
+              <i class="fas fa-play" id="playIcon"></i>
+            </button>
+            <div class="video-progress-track" id="progressTrack">
+              <div class="video-progress-fill" id="progressFill"></div>
+            </div>
+            <div class="video-time" id="videoTime">0:00 / 0:24</div>
+          </div>
+        </div>
+
+        <div class="scene-caption" id="sceneCaption"></div>
+      </div>
+      <!-- ===== END VIDEO ===== -->
+
+      <div class="card" style="border-left: 8px solid #f39c12;">
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <span class="dof-badge">NEW · 5‑DOF</span>
+          <span style="font-weight: 600; color: #0B3C5D;">Base, Shoulder, Elbow, Wrist Rotation + Gripper — full 5 degrees of freedom for precise motion.</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-lightbulb"></i></div>
+          <h2>Idea & real‑world problem</h2>
+        </div>
+        <p style="font-size:1.05rem; margin-bottom:1rem;">Inspired by <em>Ron's Gone Wrong</em> — teachers and admins deserve a real‑life “B‑Bot” to lend a physical hand.</p>
+        <div class="grid-2">
+          <div>
+            <div class="tag amber">📋 60% of admins</div>
+            <div class="tag amber">📄 15% lost time</div>
+            <p style="margin-top:1rem; font-size:0.95rem;">Manual handling causes fatigue, dropped documents, and lost confidentiality. HandyBot secures stacks automatically.</p>
+          </div>
+          <div>
+            <div class="tag green">👩‍🏫 K‑12 teachers</div>
+            <div class="tag green">🏢 office assistants</div>
+            <p style="margin-top:1rem; font-size:0.95rem;">Target users: school staff, professors, and multi‑tasking professionals like “مدام عفاف”.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon green"><i class="fas fa-cogs"></i></div>
+          <h2>Solution & interaction</h2>
+        </div>
+        <p><strong>HandyBot</strong> is a sensor‑activated robotic arm (5‑DOF) that detects approaching stacks of files (HC‑SR04 ultrasonic) and clamps them securely using servo motors.</p>
+        <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin:1.2rem 0;">
+          <div><span class="badge">1</span> Approach & detect &lt; 10cm</div>
+          <div><span class="badge">2</span> Automatic clamping</div>
+          <div><span class="badge">3</span> LED green + chime</div>
+          <div><span class="badge">4</span> Release via button / web</div>
+        </div>
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; font-size:0.9rem;">
+          <span class="tag">Proximity auto‑grip</span>
+          <span class="tag">5‑DOF stability</span>
+          <span class="tag">Smart safety alerts</span>
+          <span class="tag">IoT web override</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-sitemap"></i></div>
+          <h2>System architecture</h2>
+        </div>
+        <div class="arch-diagram">
+[ INPUT LAYER ]
+  |-- HC-SR04 Sensor (Ultrasonic Distance)
+      |
+      v
+[ PROCESSING LAYER ]
+  |-- ESP32 / Arduino (Dual-Core Brain)
+      |
+      v
+[ OUTPUT LAYER ]
+  |-- 5x SG90 Servo Motors (5-DOF Arm)
+  |-- Status LED & Buzzer (Feedback)
+      |
+      v
+[ CONNECTIVITY LAYER ]
+  |-- Wi-Fi Router / Web Dashboard App
+        </div>
+        <p style="margin-top:0.8rem; font-size:0.9rem;">Continuous loop: input → processing → output → connectivity. Distance processed every 100ms.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-microchip"></i></div>
+          <h2>Hardware & pin mapping</h2>
+        </div>
+        <table class="comp-table">
+          <thead><tr><th>Component</th><th>Pin / Type</th><th>Arduino UNO</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>Arduino UNO R3</td><td>Microcontroller</td><td>USB / Power</td><td>Main processing unit</td></tr>
+            <tr><td>HC-SR04 Ultrasonic</td><td>Trig / Echo</td><td>Pin 5 / Pin 6</td><td>Detects document stack</td></tr>
+            <tr><td>Base Servo</td><td>PWM</td><td>Pin 8</td><td>Horizontal rotation</td></tr>
+            <tr><td>Shoulder Servo</td><td>PWM</td><td>Pin 9</td><td>Vertical elevation</td></tr>
+            <tr><td>Elbow Servo</td><td>PWM</td><td>Pin 10</td><td>Joint flexion</td></tr>
+            <tr><td>Wrist Servo (new)</td><td>PWM</td><td>Pin 12</td><td>Rotational wrist (5th DOF)</td></tr>
+            <tr><td>Gripper Servo</td><td>PWM</td><td>Pin 11</td><td>Clamps documents</td></tr>
+            <tr><td>Green LED</td><td>Digital Output</td><td>Pin 2 (220Ω)</td><td>Visual clamp indicator</td></tr>
+            <tr><td>Piezo Buzzer</td><td>Digital Output</td><td>Pin 3</td><td>Audio confirmation</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon green"><i class="fas fa-chart-line"></i></div>
+          <h2>IoT Dashboard (interactive preview)</h2>
+        </div>
+        <div class="dashboard-mock">
+          <div class="dash-header">
+            <div>
+              <div class="dash-label">HandyBot · Arm_01</div>
+              <div style="display:flex; align-items:center; gap:12px; margin-top:6px;">
+                <div class="led" id="ledIndicator"></div>
+                <span id="statusText" style="font-weight:600;">STANDBY</span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div class="dash-label">distance</div>
+              <div class="dash-value" id="distanceValue">-- cm</div>
+            </div>
+          </div>
+          <div class="distance-meter"><div class="distance-fill" id="distanceFill" style="width:0%;"></div></div>
+          <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#6f8fa2;">
+            <span>0 cm</span><span>10 cm (trigger)</span><span>30 cm</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn small" id="simulateApproach"><i class="fas fa-file"></i> Simulate approach</button>
+            <button class="btn small primary" id="releaseBtn"><i class="fas fa-lock-open"></i> Release</button>
+            <button class="btn small" id="resetBtn"><i class="fas fa-redo-alt"></i> Reset</button>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <div class="dash-label" style="margin-bottom:8px;">📋 recent events</div>
+            <table class="log-table" id="logTable">
+              <thead><tr><th>Time</th><th>Event</th><th>Distance</th></tr></thead>
+              <tbody id="logBody">
+                <tr><td>10:30:00</td><td class="lock">LOCKED</td><td>8.5 cm</td></tr>
+                <tr><td>10:28:12</td><td class="unlock">UNLOCKED</td><td>—</td></tr>
+                <tr><td>10:25:44</td><td class="lock">LOCKED</td><td>7.2 cm</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="card" style="background: linear-gradient(145deg, #0B3C5D, #134b6b); color: white; border: none;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-robot" style="font-size: 3rem; color: #f39c12;"></i>
+          <div>
+            <div style="font-size: 2rem; font-weight: 800;">5‑DOF</div>
+            <div style="opacity: 0.8;">Base · Shoulder · Elbow · Wrist · Gripper</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-briefcase"></i></div>
+          <h2>Business model</h2>
+        </div>
+        <div class="canvas-grid">
+          <div class="canvas-block"><h4>Customer segments</h4><p>Engineering students, STEM hobbyists, education centers</p></div>
+          <div class="canvas-block"><h4>Value proposition</h4><p>Automated extra hand for sorting & repetitive tasks</p></div>
+          <div class="canvas-block"><h4>Revenue</h4><p>Kit ~$45 · cloud + AI $1.99/mo</p></div>
+          <div class="canvas-block"><h4>Channels / partners</h4><p>To be defined</p></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-rocket"></i></div>
+          <h2>Future scope & AI</h2>
+        </div>
+        <p>🧠 Path‑prediction AI optimizes arm trajectory.</p>
+        <p style="margin-top:0.8rem;">☁️ Remote cloud override + fault detection.</p>
+        <p style="margin-top:0.8rem;">🛞 Wheeled base → fully mobile assistant.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-palette"></i></div>
+          <h2>Brand identity</h2>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1rem;">
+          <div style="width:40px; height:40px; background:#0B3C5D; border-radius:12px;" title="Deep Tech Blue"></div>
+          <div style="width:40px; height:40px; background:#328CC1; border-radius:12px;" title="Alert Green / Blue"></div>
+          <div style="width:40px; height:40px; background:#C3073F; border-radius:12px;" title="Warm Amber"></div>
+          <div style="width:40px; height:40px; background:#1D2731; border-radius:12px;" title="Dark"></div>
+        </div>
+        <p style="font-size:0.9rem;">Logo: robotic arm + supportive hand silhouette. Typography: Roboto / Montserrat.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-users"></i></div>
+          <h2>Prepared by</h2>
+        </div>
+        <p>Celine Samwel & Ali Mohammed</p>
+        <p style="margin-top:0.3rem; font-size:0.85rem; color:#6f8fa2;">DECI Summer Competition · Stage 2 · Level 3</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer class="footer">
+    <p>HandyBot — “Your Extra Smart Hand” · 5‑DOF · Machine in Motion theme</p>
+  </footer>
+
+  <script>
+    /* ============================================================
+       PARTICLES
+    ============================================================ */
+    (function(){
+      const particlesContainer = document.getElementById('particles');
+      for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 12 + 's';
+        particle.style.animationDuration = 8 + Math.random() * 12 + 's';
+        particle.style.width = particle.style.height = (4 + Math.random() * 8) + 'px';
+        particle.style.background = ['#328CC1', '#C3073F', '#f39c12', '#0B3C5D'][Math.floor(Math.random() * 4)];
+        particle.style.opacity = 0.1 + Math.random() * 0.3;
+        particlesContainer.appendChild(particle);
+      }
+    })();
+
+    /* ============================================================
+       DASHBOARD LOGIC
+    ============================================================ */
+    (function(){
+      const led = document.getElementById('ledIndicator');
+      const statusText = document.getElementById('statusText');
+      const distanceValue = document.getElementById('distanceValue');
+      const distanceFill = document.getElementById('distanceFill');
+      const logBody = document.getElementById('logBody');
+
+      function updateUI(distance, locked = false) {
+        distanceValue.textContent = distance + ' cm';
+        let fillPercent = Math.min(100, (distance / 30) * 100);
+        distanceFill.style.width = fillPercent + '%';
+        if (locked) {
+          led.classList.add('active');
+          statusText.textContent = 'CLAMPED';
+          statusText.style.color = '#2ecc71';
+        } else {
+          led.classList.remove('active');
+          statusText.textContent = 'STANDBY';
+          statusText.style.color = '#6f8fa2';
+        }
+      }
+
+      function addLogEntry(event, distance) {
+        const now = new Date();
+        const timeStr = now.toTimeString().split(' ')[0];
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${timeStr}</td><td class="${event === 'LOCKED' ? 'lock' : 'unlock'}">${event}</td><td>${distance ? distance + ' cm' : '—'}</td>`;
+        logBody.prepend(row);
+        if (logBody.children.length > 5) logBody.removeChild(logBody.lastChild);
+      }
+
+      let currentDistance = 18.0;
+      let isLocked = false;
+      updateUI(currentDistance, false);
+
+      document.getElementById('simulateApproach').addEventListener('click', function() {
+        if (isLocked) return;
+        const newDist = parseFloat((Math.random() * 5 + 4).toFixed(1));
+        currentDistance = newDist;
+        updateUI(currentDistance, true);
+        isLocked = true;
+        addLogEntry('LOCKED', currentDistance);
+        if (navigator.vibrate) navigator.vibrate(50);
+      });
+
+      document.getElementById('releaseBtn').addEventListener('click', function() {
+        if (!isLocked) return;
+        isLocked = false;
+        currentDistance = 18.0 + Math.random() * 5;
+        updateUI(currentDistance, false);
+        addLogEntry('UNLOCKED', null);
+      });
+
+      document.getElementById('resetBtn').addEventListener('click', function() {
+        isLocked = false;
+        currentDistance = 18.0;
+        updateUI(currentDistance, false);
+        while (logBody.children.length > 3) logBody.removeChild(logBody.lastChild);
+      });
+
+      setInterval(() => {
+        if (!isLocked) {
+          const jitter = (Math.random() * 4 - 2);
+          let newDist = Math.max(12, Math.min(28, currentDistance + jitter));
+          currentDistance = parseFloat(newDist.toFixed(1));
+          updateUI(currentDistance, false);
+        }
+      }, 3500);
+    })();
+
+    /* ============================================================
+       BUILT-IN ANIMATED PROMO VIDEO
+       Rendered entirely with Canvas + JavaScript.
+       No external files, no YouTube, no Vimeo.
+    ============================================================ */
+    (function(){
+      const canvas = document.getElementById('videoCanvas');
+      const ctx = canvas.getContext('2d');
+      const playBtn = document.getElementById('playBtn');
+      const playIcon = document.getElementById('playIcon');
+      const progressFill = document.getElementById('progressFill');
+      const progressTrack = document.getElementById('progressTrack');
+      const videoTime = document.getElementById('videoTime');
+      const sceneCaption = document.getElementById('sceneCaption');
+      const wrapper = document.getElementById('videoWrapper');
+
+      const TOTAL_DURATION = 24;   // seconds
+      const FPS = 30;
+      const FRAME_DURATION = 1000 / FPS;
+
+      let isPlaying = false;
+      let currentTime = 0;         // in seconds
+      let animationId = null;
+      let lastTimestamp = 0;
+
+      /* ---------- Canvas sizing (crisp on retina) ---------- */
+      function resizeCanvas() {
+        const rect = wrapper.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        drawFrame(currentTime);
+      }
+      window.addEventListener('resize', resizeCanvas);
+
+      /* ---------- Scene captions ---------- */
+      const captions = [
+        { start: 0,    end: 4,    text: '🤖 Meet HandyBot' },
+        { start: 4,    end: 8,    text: '📄 Detects approaching files < 10 cm' },
+        { start: 8,    end: 13,   text: '⚙️ 5‑DOF arm locks securely' },
+        { start: 13,   end: 17,   text: '💡 LED + chime confirms grip' },
+        { start: 17,   end: 21,   text: '📱 Release from phone or button' },
+        { start: 21,   end: 24,   text: '✨ Your Extra Smart Hand' }
+      ];
+
+      function updateCaption(t) {
+        let active = null;
+        for (const c of captions) {
+          if (t >= c.start && t < c.end) { active = c; break; }
+        }
+        if (active) {
+          sceneCaption.textContent = active.text;
+          sceneCaption.classList.add('visible');
+        } else {
+          sceneCaption.classList.remove('visible');
+        }
+      }
+
+      /* ---------- Helper drawing functions ---------- */
+
+      // rounded rectangle
+      function roundRect(x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.lineTo(x + w - r, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+        ctx.lineTo(x + w, y + h - r);
+        ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+        ctx.lineTo(x + r, y + h);
+        ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+        ctx.lineTo(x, y + r);
+        ctx.quadraticCurveTo(x, y, x + r, y);
+        ctx.closePath();
+      }
+
+      // draw a servo motor (little box with a horn)
+      function drawServo(x, y, angleDeg, label, scale = 1) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.scale(scale, scale);
+
+        // body
+        ctx.fillStyle = '#2c3e50';
+        roundRect(-18, -14, 36, 28, 6);
+        ctx.fill();
+        ctx.strokeStyle = '#1a252f';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // mounting holes
+        ctx.fillStyle = '#95a5a6';
+        ctx.beginPath(); ctx.arc(-12, -8, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(12, -8, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(-12, 8, 2.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(12, 8, 2.5, 0, Math.PI * 2); ctx.fill();
+
+        // horn
+        ctx.save();
+        ctx.rotate((angleDeg * Math.PI) / 180);
+        ctx.fillStyle = '#ecf0f1';
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(22, -3);
+        ctx.lineTo(22, 3);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#bdc3c7';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        // label
+        if (label) {
+          ctx.fillStyle = '#ecf0f1';
+          ctx.font = 'bold 10px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(label, 0, 30);
+        }
+        ctx.restore();
+      }
+
+      // draw the full 5‑DOF arm
+      function drawArm(baseAngle, shoulderAngle, elbowAngle, wristAngle, gripperAngle, highlight) {
+        // Base plate
+        ctx.save();
+        ctx.translate(canvas.width / 2 / (window.devicePixelRatio||1), canvas.height * 0.85 / (window.devicePixelRatio||1));
+
+        // base
+        ctx.fillStyle = '#34495e';
+        roundRect(-60, -15, 120, 30, 8);
+        ctx.fill();
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // rotating base
+        ctx.save();
+        ctx.rotate((baseAngle * Math.PI) / 180);
+        drawServo(0, -20, 0, 'BASE', 1.1);
+
+        // shoulder link
+        ctx.translate(0, -50);
+        ctx.save();
+        ctx.rotate((shoulderAngle * Math.PI) / 180);
+        drawServo(0, 0, 0, 'SHOULDER', 1.0);
+
+        // upper arm
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -80);
+        ctx.strokeStyle = highlight ? '#f39c12' : '#7f8c8d';
+        ctx.lineWidth = 10;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // elbow
+        ctx.translate(0, -80);
+        ctx.save();
+        ctx.rotate((elbowAngle * Math.PI) / 180);
+        drawServo(0, 0, 0, 'ELBOW', 0.9);
+
+        // forearm
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -70);
+        ctx.strokeStyle = highlight ? '#f39c12' : '#7f8c8d';
+        ctx.lineWidth = 9;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+
+        // wrist
+        ctx.translate(0, -70);
+        ctx.save();
+        ctx.rotate((wristAngle * Math.PI) / 180);
+        drawServo(0, 0, 0, 'WRIST', 0.8);
+
+        // gripper
+        ctx.translate(0, -30);
+        ctx.save();
+        ctx.rotate((gripperAngle * Math.PI) / 180);
+        drawServo(0, 0, 0, 'GRIPPER', 0.7);
+
+        // fingers
+        ctx.fillStyle = '#e67e22';
+        roundRect(-22, -6, 8, 20, 3); ctx.fill();
+        roundRect(14, -6, 8, 20, 3); ctx.fill();
+
+        ctx.restore(); // gripper
+        ctx.restore(); // wrist
+        ctx.restore(); // elbow
+        ctx.restore(); // shoulder
+        ctx.restore(); // base
+        ctx.restore(); // main
+      }
+
+      /* ---------- Main frame renderer ---------- */
+      function drawFrame(t) {
+        const w = canvas.width / (window.devicePixelRatio||1);
+        const h = canvas.height / (window.devicePixelRatio||1);
+
+        // background gradient
+        const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+        bgGrad.addColorStop(0, '#0a1a28');
+        bgGrad.addColorStop(1, '#0d2a3f');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // subtle grid lines
+        ctx.strokeStyle = 'rgba(50,140,193,0.08)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 40) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+        }
+        for (let y = 0; y < h; y += 40) {
+          ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+        }
+
+        // moving particles inside the video
+        for (let i = 0; i < 15; i++) {
+          const px = ((i * 97 + t * 30) % (w + 60)) - 30;
+          const py = ((i * 53 + t * 15) % (h + 60)) - 30;
+          ctx.fillStyle = i % 3 === 0 ? 'rgba(243,156,18,0.5)' : 'rgba(50,140,193,0.4)';
+          ctx.beginPath();
+          ctx.arc(px, py, 2 + (i % 2), 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        /* ---------- Scene logic ---------- */
+        // We'll animate the arm and a "document stack" approaching.
+
+        // Default angles
+        let baseA = 0;
+        let shoulderA = -10;   // slightly raised
+        let elbowA = 20;
+        let wristA = 0;
+        let gripperA = 0;
+
+        let highlight = false;
+        let showDoc = false;
+        let docX = w * 0.7;
+        let docY = h * 0.75;
+        let docOpacity = 0;
+
+        // Scene 1: Intro (0–4s) – arm idle, waving
+        if (t < 4) {
+          shoulderA = -10 + Math.sin(t * 3) * 8;
+          elbowA = 20 + Math.sin(t * 2.5) * 10;
+          wristA = Math.sin(t * 4) * 15;
+        }
+
+        // Scene 2: Document approaches (4–8s)
+        if (t >= 4 && t < 8) {
+          const p = (t - 4) / 4; // 0→1
+          docOpacity = Math.min(1, p * 1.5);
+          docX = w * 0.7 - p * (w * 0.35); // move from right to center
+          docY = h * 0.75;
+          showDoc = true;
+
+          // arm starts lowering
+          shoulderA = -10 + p * 20;    // goes from -10 to 10
+          elbowA = 20 + p * 30;        // 20 → 50
+          wristA = p * 10;
+          gripperA = p * 20;
+          highlight = p > 0.5;
+        }
+
+        // Scene 3: Grip locked (8–13s)
+        if (t >= 8 && t < 13) {
+          const p = (t - 8) / 5;
+          docOpacity = 1;
+          docX = w * 0.35;
+          docY = h * 0.75;
+          showDoc = true;
+
+          shoulderA = 10 + Math.sin(t * 8) * 2;
+          elbowA = 50 + Math.sin(t * 6) * 3;
+          wristA = 10;
+          gripperA = 20 + Math.sin(t * 10) * 4;
+          highlight = true;
+        }
+
+        // Scene 4: LED + chime (13–17s)
+        if (t >= 13 && t < 17) {
+          const p = (t - 13) / 4;
+          docOpacity = 1 - p * 0.3;
+          docX = w * 0.35;
+          docY = h * 0.75;
+          showDoc = true;
+
+          shoulderA = 10 + Math.sin(t * 12) * 4;
+          elbowA = 50 + Math.sin(t * 10) * 5;
+          wristA = 10 + Math.sin(t * 8) * 8;
+          gripperA = 20 + Math.sin(t * 15) * 6;
+          highlight = true;
+        }
+
+        // Scene 5: Release (17–21s)
+        if (t >= 17 && t < 21) {
+          const p = (t - 17) / 4;
+          docOpacity = 1 - p;
+          docX = w * 0.35 + p * (w * 0.3);
+          docY = h * 0.75 + p * 20;
+          showDoc = true;
+
+          shoulderA = 10 - p * 20;
+          elbowA = 50 - p * 30;
+          wristA = 10 - p * 10;
+          gripperA = 20 - p * 20;
+          highlight = p < 0.5;
+        }
+
+        // Scene 6: Finale (21–24s)
+        if (t >= 21) {
+          shoulderA = -10 + Math.sin(t * 2) * 5;
+          elbowA = 20 + Math.sin(t * 3) * 8;
+          wristA = Math.sin(t * 2.5) * 10;
+          gripperA = 0;
+        }
+
+        // Draw the document stack if needed
+        if (showDoc && docOpacity > 0.01) {
+          ctx.save();
+          ctx.globalAlpha = docOpacity;
+
+          // stack of papers
+          ctx.fillStyle = '#ecf0f1';
+          for (let i = 0; i < 5; i++) {
+            ctx.fillStyle = i % 2 === 0 ? '#ecf0f1' : '#dfe6e9';
+            roundRect(docX - 35 + i * 2, docY - 25 + i * 3, 70, 50, 3);
+            ctx.fill();
+            ctx.strokeStyle = '#bdc3c7';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
+
+          // "FILES" text
+          ctx.fillStyle = '#2c3e50';
+          ctx.font = 'bold 11px Inter, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('FILES', docX, docY + 5);
+
+          ctx.restore();
+        }
+
+        // Draw the arm
+        drawArm(baseA, shoulderA, elbowA, wristA, gripperA, highlight);
+
+        // Draw status LED (green circle) near base
+        const ledX = w / 2 - 40;
+        const ledY = h * 0.85 - 40;
+        ctx.beginPath();
+        ctx.arc(ledX, ledY, 8, 0, Math.PI * 2);
+        if (t >= 8 && t < 17) {
+          ctx.fillStyle = '#2ecc71';
+          ctx.shadowColor = '#2ecc71';
+          ctx.shadowBlur = 15 + Math.sin(t * 20) * 5;
+        } else {
+          ctx.fillStyle = '#555';
+          ctx.shadowBlur = 0;
+        }
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Label LED
+        ctx.fillStyle = '#bdc3c7';
+        ctx.font = '9px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('STATUS', ledX, ledY + 20);
+
+        // Sound wave icon when chime (13–17)
+        if (t >= 13 && t < 17) {
+          const pulse = (t - 13) * 6;
+          ctx.strokeStyle = `rgba(243,156,18,${0.6 - (t-13)*0.15})`;
+          ctx.lineWidth = 2;
+          for (let r = 15; r < 40; r += 10) {
+            ctx.beginPath();
+            ctx.arc(ledX + 60, ledY, r + Math.sin(pulse + r) * 3, 0, Math.PI * 2);
+            ctx.stroke();
+          }
+        }
+
+        // Scene title overlay
+        ctx.fillStyle = 'rgba(255,255,255,0.85)';
+        ctx.font = 'bold 22px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        if (t < 4) {
+          ctx.fillText('HANDYBOT', w / 2, 60);
+        } else if (t >= 21) {
+          ctx.fillStyle = '#f39c12';
+          ctx.font = 'bold 26px Inter, sans-serif';
+          ctx.fillText('YOUR EXTRA SMART HAND', w / 2, 60);
+        }
+
+        updateCaption(t);
+      }
+
+      /* ---------- Playback controls ---------- */
+      function updateProgress() {
+        const pct = (currentTime / TOTAL_DURATION) * 100;
+        progressFill.style.width = pct + '%';
+        const mins = Math.floor(currentTime / 60);
+        const secs = Math.floor(currentTime % 60).toString().padStart(2, '0');
+        videoTime.textContent = `${mins}:${secs} / 0:${TOTAL_DURATION}`;
+      }
+
+      function animate(timestamp) {
+        if (!isPlaying) return;
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const delta = (timestamp - lastTimestamp) / 1000;
+        lastTimestamp = timestamp;
+
+        currentTime += delta;
+        if (currentTime >= TOTAL_DURATION) {
+          currentTime = TOTAL_DURATION;
+          drawFrame(currentTime);
+          updateProgress();
+          pauseVideo();
+          return;
+        }
+
+        drawFrame(currentTime);
+        updateProgress();
+        animationId = requestAnimationFrame(animate);
+      }
+
+      function playVideo() {
+        if (currentTime >= TOTAL_DURATION) currentTime = 0;
+        isPlaying = true;
+        lastTimestamp = 0;
+        playIcon.className = 'fas fa-pause';
+        animationId = requestAnimationFrame(animate);
+      }
+
+      function pauseVideo() {
+        isPlaying = false;
+        if (animationId) cancelAnimationFrame(animationId);
+        playIcon.className = 'fas fa-play';
+      }
+
+      playBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isPlaying) pauseVideo();
+        else playVideo();
+      });
+
+      wrapper.addEventListener('click', function(e) {
+        if (e.target.closest('.play-btn') || e.target.closest('.video-controls')) return;
+        if (isPlaying) pauseVideo();
+        else playVideo();
+      });
+
+      progressTrack.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const rect = progressTrack.getBoundingClientRect();
+        const pct = (e.clientX - rect.left) / rect.width;
+        currentTime = pct * TOTAL_DURATION;
+        drawFrame(currentTime);
+        updateProgress();
+      });
+
+      /* ---------- Init ---------- */
+      resizeCanvas();
+      updateProgress();
+      drawFrame(0);
+
+    })();
+  </script>
+</body>
+</html>
